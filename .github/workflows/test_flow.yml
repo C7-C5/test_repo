@@ -1,28 +1,33 @@
-name: Automated Tests Workflow
+name: UI Autotests
 
 on: push
-#  pull_request:
+#  push:
 #    branches:
 #      - main
 
 jobs:
-  build:
+
+  run-ui-tests:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Set up Python 3.10
-        uses: actions/setup-python@v2
-        with:
-          python-version: "3.10"
+    - name: Checkout repository
+      uses: actions/checkout@v3
 
-      - name: Clone Repository
-        run: git clone git@github.com:gateway-fm/autotests.git
+    - name: Pull Docker image
+      run: docker pull c7toc5154/autotests:latest
 
-#      - name: Install Dependencies
-#        run: |
-#          cd <название_склонированной_папки>
-#          pip install -r requirements.txt
+    - name: Install dependencies
+      run: |
+        docker run -v ${{ github.workspace }}:/app c7toc5154/autotests:latest pip install -r requirements.txt
 
-      - name: Run Automated Tests
-        run: |
-          docker-compose run pytest pytest -m "unit" --alluredir=allure-results || FAILED=true
+    - name: Run UI tests
+      run: |
+        docker run -v ${{ github.workspace }}:/app c7toc5154/autotests:latest pytest -m "ui" --alluredir=allure-results
+
+    - name: Store allure results
+      uses: actions/upload-artifact@v3
+      with:
+        name: allure-results
+        path: allure-results
+        retention-days: 1
