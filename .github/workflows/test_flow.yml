@@ -13,5 +13,6 @@ jobs:
 
     - name: Build and run tests
       run: |
-        docker-compose up --build --exit-code-from pytest pytest -m "ui_checkup"
+        docker-compose up --build --exit-code-from
+        docker-compose run pytest pytest -m "ui_checkup"
         docker-compose down
