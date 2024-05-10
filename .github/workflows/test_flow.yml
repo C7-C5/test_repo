@@ -15,7 +15,7 @@ jobs:
       run: docker pull c7toc5154/test_image:latest
 
     - name: Build Docker image
-      run: docker build -t c7toc5154/test_image:latest .
+      run: docker build -t c7toc5154/test_image:latest -f /usr/workspace/Dockerfile .
 
     - name: Run tests with Docker Compose
       run: |
