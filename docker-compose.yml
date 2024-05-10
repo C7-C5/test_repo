@@ -2,7 +2,7 @@ version: '3.7'
 
 services:
   pytest:
-    image: seleniarm/standalone-chromium:latest
+    image: c7toc5154/test_image:latest
     ports:
       - "4445:4444"
       # - "5902:5900"
