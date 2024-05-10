@@ -14,6 +14,9 @@ jobs:
     - name: Pull Docker image
       run: docker pull c7toc5154/test_image:latest
 
+    - name: Build Docker image
+      run: docker build -t c7toc5154/test_image:latest .
+
     - name: Run tests with Docker Compose
       run: |
         docker-compose up --build --exit-code-from pytest pytest -m "ui_checkup" 
