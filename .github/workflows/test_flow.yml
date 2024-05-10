@@ -1,9 +1,6 @@
 name: UI Autotests
 
 on: push
-#  push:
-#    branches:
-#      - main
 
 jobs:
 
@@ -15,16 +12,13 @@ jobs:
       uses: actions/checkout@v3
 
     - name: Pull Docker image
-      run: docker pull c7toc5154/autotests:latest
+      run: docker pull c7toc5154/test_image:latest
 
-    - name: Install dependencies
+    - name: Run tests with Docker Compose
       run: |
-        docker run -v ${{ github.workspace }}:/app c7toc5154/test_image:latest pip install -r requirements.txt
-
-    - name: Run UI tests
-      run: |
-        docker run -v ${{ github.workspace }}:/app c7toc5154/test_image:latest pytest -m "ui_checkup" --alluredir=allure-results
-
+        docker-compose up --build --exit-code-from pytest pytest -m "ui_checkup" 
+        docker-compose down
+        
     - name: Store allure results
       uses: actions/upload-artifact@v3
       with:
