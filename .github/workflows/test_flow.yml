@@ -19,11 +19,11 @@ jobs:
 
     - name: Install dependencies
       run: |
-        docker run -v ${{ github.workspace }}:/app c7toc5154/autotests:latest pip install -r requirements.txt
+        docker run -v ${{ github.workspace }}:/app c7toc5154/test_image:latest pip install -r requirements.txt
 
     - name: Run UI tests
       run: |
-        docker run -v ${{ github.workspace }}:/app c7toc5154/autotests:latest pytest -m "ui" --alluredir=allure-results
+        docker run -v ${{ github.workspace }}:/app c7toc5154/test_image:latest pytest -m "ui_checkup" --alluredir=allure-results
 
     - name: Store allure results
       uses: actions/upload-artifact@v3
