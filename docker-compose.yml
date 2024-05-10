@@ -1,0 +1,51 @@
+version: '3.7'
+
+services:
+  pytest:
+    image: seleniarm/standalone-chromium:latest
+    ports:
+      - "4445:4444"
+      # - "5902:5900"
+      # - "7901:7900"
+    networks:
+      - mynetwork
+    command: python runner.py
+      -run
+      -debug
+      --env=dev
+      # -force-logs
+
+    working_dir: /usr/workspace
+    environment:
+      - LOGIN=${AUTOTESTS_LOGIN}
+      - PASSWORD=${AUTOTESTS_PASSWORD}
+
+  selenium:
+    image: seleniarm/standalone-chromium:latest
+    ports:
+      - "4444:4444"
+      - "5901:5900"
+      - "7900:7900"
+    networks:
+      - mynetwork
+
+#  ui-autotests:
+#    build:
+#      context: ./
+#      dockerfile: Dockerfile
+#    volumes:
+#      - ./:/usr/workspace
+#    command: python runner.py
+#      -run
+#      -debug
+#      --env=dev
+#    # -force-logs
+#    ports:
+#      - "4445:4444"
+      # - "5902:5900"
+      # - "7901:7900"
+#    networks:
+#      - mynetwork
+
+networks:
+  mynetwork:

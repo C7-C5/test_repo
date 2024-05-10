@@ -7,12 +7,8 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Set up Docker Buildx
-      uses: docker/setup-buildx-action@v1
-
-    - name: Pull test image
-      run: docker pull c7toc5154/test_image:latest
 
     - name: Build and run tests
       run: |
-        docker run --rm -v $PWD:/usr/workspace -w /usr/workspace c7toc5154/test_image:latest /bin/sh -c "docker-compose up --build --exit-code-from pytest pytest -m \"ui_checkup\" && docker-compose down"
+        docker-compose up --build --exit-code-from pytest pytest -m "ui_checkup"
+        docker-compose down
